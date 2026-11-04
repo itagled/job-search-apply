@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jobradar"
+version = "0.1.0"
+description = "AI-assisted job search: posting sources, deduplication, LLM fit score, outreach and tailored CVs."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "SQLAlchemy>=2.0,<2.1",
+    "alembic>=1.13",
+    "psycopg2-binary>=2.9",
+    "python-dotenv>=1.0",
+    "requests>=2.31",
+    "google-auth>=2.23",
+    "google-auth-oauthlib>=1.2",
+    "google-api-python-client>=2.100",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "vulture>=2.10"]
+
+[project.scripts]
+jobradar = "jobradar.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["jobradar*"]
+
+[tool.setuptools.package-data]
+"jobradar.web" = ["*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider -p no:anyio"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["data", "profile"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+# E501: the formatter wraps code; long strings (prompts, regexes, SQL) stay as written.
+# UP047: TypeVar generics are fine.
+ignore = ["E501", "UP047"]

@@ -1,0 +1,6 @@
+{
+  "parent": "<id of the Drive folder with the master CVs>",
+  "master_en": "<id of the Google Doc with the master CV in English>",
+  "master_es": "<id of the Google Doc with the master CV in Spanish>",
+  "tailored_folder": "<id of the folder for tailored CVs (optional)>"
+}

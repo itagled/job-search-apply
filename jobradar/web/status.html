@@ -1,0 +1,48 @@
+<!doctype html><html lang="${lang}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>${t_title}</title><style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16181d;--mute:#5d6470;--line:#e3e6eb;--hot:#c2410c;--acc:#1d4ed8;--pri-bg:#1d4ed8;--pri-ink:#fff;
+--g:#15803d;--gbg:#dcfce7;--b:#1d4ed8;--bbg:#dbeafe;--y:#a16207;--ybg:#fef9c3;--r:#b91c1c;--rbg:#fee2e2;--n:#475569;--nbg:#e2e8f0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111316;--card:#1a1d22;--ink:#e8eaee;--mute:#9aa3ae;--line:#2a2f37;--hot:#fb923c;--acc:#7aa2ff;--pri-bg:#3b6cf6;--pri-ink:#fff;
+--g:#4ade80;--gbg:#14301f;--b:#93b4ff;--bbg:#1a2747;--y:#facc15;--ybg:#3a3110;--r:#f87171;--rbg:#3b1717;--n:#cbd5e1;--nbg:#262c35}}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--mute);margin:0 0 10px}
+h2.sec{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:30px 0 10px} h3.sub3{font-size:15px;margin:18px 0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 12px}
+.card.hot{border-left:4px solid var(--hot)} .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+h3{font-size:16px;margin:0} .when{font-size:13px;color:var(--hot);font-weight:600} p{margin:8px 0}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;align-items:center}
+a.btn,button{display:inline-block;padding:5px 10px;border:1px solid var(--line);border-radius:7px;color:var(--acc);background:var(--card);font:600 13px system-ui,Segoe UI,Arial,sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
+a.btn.pri{background:var(--pri-bg);color:var(--pri-ink);border-color:var(--pri-bg)} button.ok{color:var(--g)} form.inl{display:inline;margin:0}
+.mute{color:var(--mute)} ul.lst{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 30px;margin:0} ul.lst li{margin:8px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px} .chip{border-radius:999px;color:var(--ink);font-weight:400}
+.chip.on{border-color:var(--acc);color:var(--acc)}
+input.q{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:14px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)} td.lk{white-space:nowrap} td.lk a.btn{margin:0 4px 4px 0}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--nbg);color:var(--n)}
+.t-interview,.t-offer{background:var(--gbg);color:var(--g)} .t-interview_requested,.t-replied{background:var(--bbg);color:var(--b)}
+.t-assessment,.t-incomplete{background:var(--ybg);color:var(--y)} .t-rejected{background:var(--rbg);color:var(--r)}
+details summary{cursor:pointer;color:var(--acc);font-weight:600;margin:6px 0}
+@media (max-width:640px){td:nth-child(3),th:nth-child(3){display:none}}
+</style></head>
+<body><main>
+<h1>${t_heading}</h1>
+<p class="sub">${t_live} · ${now} · ${summary}. ${t_reload}</p>
+<h2 class="sec">${t_upcoming}</h2><div class="grid">${up}</div>${rec}
+<h2 class="sec">${t_todo}</h2>${tasks}
+<h2 class="sec">${t_replies}</h2>${rep}
+<h2 class="sec">${t_incomplete} (${npend})</h2>
+<details><summary>${t_incomplete_hint}</summary>${pending}</details>
+<h2 class="sec">${t_all} (<span id="n">${total}</span>)</h2>
+<input class="q" placeholder="${t_search}"><div class="chips">${chips}</div>
+<div class="tw"><table><thead><tr><th>${t_th_company}</th><th>${t_th_status}</th><th>${t_th_applied}</th><th>${t_th_last}</th><th>${t_th_links}</th></tr></thead>
+<tbody>${trs}</tbody></table></div>
+</main><script>
+const chips=[...document.querySelectorAll('.chip')], q=document.querySelector('input.q'), rows=[...document.querySelectorAll('tbody tr')];
+let f='';
+function apply(){const t=q.value.trim().toLowerCase(); let n=0; for(const r of rows){const ok=(!f||r.dataset.stage===f)&&(!t||r.innerText.toLowerCase().includes(t)); r.style.display=ok?'':'none'; if(ok)n++;} document.getElementById('n').textContent=n;}
+chips.forEach(c=>c.onclick=()=>{f=(f===c.dataset.f)?'':c.dataset.f; chips.forEach(x=>x.classList.toggle('on',x.dataset.f===f)); apply();});
+q.oninput=apply; apply();
+</script></body></html>
