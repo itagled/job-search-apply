@@ -36,6 +36,7 @@ include = ["jobradar*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]  # `pytest` and `python -m pytest` both find `tests.conftest`
 addopts = "-q -p no:cacheprovider -p no:anyio"
 
 [tool.ruff]
